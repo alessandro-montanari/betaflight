@@ -84,6 +84,7 @@ void pwmWriteDigital(uint8_t index, uint16_t value)
         packet <<= 1;
     }
 
+    DMA_Cmd(motor->timerHardware->dmaChannel, DISABLE);
     TIM_DMACmd(motor->timerHardware->tim, motor->timerDmaSource, DISABLE);
     DMA_SetCurrDataCounter(motor->timerHardware->dmaChannel, MOTOR_DMA_BUFFER_SIZE);
     DMA_CLEAR_FLAG(motor->dmaDescriptor, DMA_IT_TCIF);
@@ -188,6 +189,7 @@ void pwmDigitalMotorHardwareConfig(const timerHardware_t *timerHardware, uint8_t
     DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
 
     DMA_Init(channel, &DMA_InitStructure);
+
 }
 
 #endif
